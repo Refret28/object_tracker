@@ -29,15 +29,15 @@ def detect_objects(frame):
                     detections.append(([x1.item(), y1.item(), (x2 - x1).item(), (y2 - y1).item()], conf.item(), class_name))
     return detections
 
-video_path = os.path.join('...') # path to video stream
-cap = cv2.VideoCapture(video_path) # you can specify the camera number
+#video_path = os.path.join('...') # path to video stream
+cap = cv2.VideoCapture(0) # you can specify the camera number
 
 classes_file_path = 'classes.txt'
 classes = load_classes(classes_file_path)
 
 while cap.isOpened():
     ret, frame = cap.read()
-    if ret is False:
+    if not ret:
         break
 
     detections = detect_objects(frame)

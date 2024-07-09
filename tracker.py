@@ -1,13 +1,12 @@
 import cv2
 from ultralytics import YOLO
-# import sys
-# sys.path.append('deep_sort_realtime') # if there is an error importing a module, add the path to find it
 from deep_sort_realtime.deepsort_tracker import DeepSort
 import os
-
+import argparse
+    
 model = YOLO('yolov5s.pt')
 
-tracker = DeepSort(max_age=30)
+tracker = DeepSort(max_age=5)
 
 def load_classes(file_path):
     with open(file_path, 'r') as f:
@@ -29,8 +28,28 @@ def detect_objects(frame):
                     detections.append(([x1.item(), y1.item(), (x2 - x1).item(), (y2 - y1).item()], conf.item(), class_name))
     return detections
 
-#video_path = os.path.join('...') # path to video stream
-cap = cv2.VideoCapture(0) # you can specify the camera number
+parser = argparse.ArgumentParser()
+group = parser.add_mutually_exclusive_group()
+group.add_argument('-p', '--path')
+group.add_argument('-n', '--num', type=int)
+args = parser.parse_args()
+
+def video_stream_detection(args):
+
+    if args.path:
+        if not os.path.isfile(args.path):
+            raise FileNotFoundError(f'File on path {args.path} not found')
+        cap = cv2.VideoCapture(args.path)
+    elif args.num is not None:
+        cap = cv2.VideoCapture(args.num)
+        if not cap.isOpened():
+            raise ValueError(f'Camera with number {args.num} not found. Make sure it exists and is connected.')
+    else:
+        raise ValueError('Either -p/--path or -n/--num must be specified')
+    
+    return cap
+
+cap = video_stream_detection(args)
 
 classes_file_path = 'classes.txt'
 classes = load_classes(classes_file_path)
@@ -45,7 +64,7 @@ while cap.isOpened():
 
     for track in tracks:
 
-        if track.is_confirmed() is False:
+        if not track.is_confirmed():
             continue
 
         track_id = track.track_id

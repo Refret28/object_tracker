@@ -1,7 +1,7 @@
 import cv2
 from ultralytics import YOLO
-import sys
-sys.path.append('deep_sort_realtime')
+# import sys
+# sys.path.append('deep_sort_realtime') # if there is an error importing a module, add the path to find it
 from deep_sort_realtime.deepsort_tracker import DeepSort
 import os
 
@@ -30,7 +30,7 @@ def detect_objects(frame):
     return detections
 
 video_path = os.path.join('...') # path to video stream
-cap = cv2.VideoCapture(video_path)
+cap = cv2.VideoCapture(video_path) # you can specify the camera number
 
 classes_file_path = 'classes.txt'
 classes = load_classes(classes_file_path)

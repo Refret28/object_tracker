@@ -2,10 +2,6 @@
 
 1) **Installing required dependencies:**
 ```bash
-    pip install ultralitycs setuptools
-```
-***And also you can install all dependencies with specific versions via requirements.txt:**
-```bash
     pip install requirements.txt
 ```
 
@@ -14,4 +10,23 @@
     git clone https://github.com/levan92/deep_sort_realtime.git
 ```
 
-3) **In the tracker.py file, in line 32, write your path to the video file or in line 33, indicate in parentheses the number of the camera from which the video stream will be captured.**
+3) **To import the module correctly, go to the cloned repository and run the command:**
+```bash
+    pip install .
+```
+
+4) **The application should be launched through the terminal indicating the necessary parameters:**
+```bash
+    - `-p`, `--path`: path to file or directory
+    - `-n`, `--num`: camera number (int)
+```
+## Examples of using
+
+1. **Specifying the path:**
+    ```bash
+    python script.py -p /folder/file.mp4
+    ```
+2. **Specifying the number:**
+    ```bash
+    python script.py -n 0
+    ```

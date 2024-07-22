@@ -2,7 +2,7 @@
 
 1) **Installing required dependencies:**
 ```bash
-    pip install requirements.txt
+    pip install -r requirements.txt
 ```
 
 2) **Сlone the repository, which can be explored by following the link in the subdirectory (deep_sort_realtime):**
